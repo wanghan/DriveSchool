@@ -1,47 +1,86 @@
 ﻿<Window x:Class="DriveSchool.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-  <Grid Height="314">
-    <Grid.RowDefinitions>
+        Title="MainWindow" Height="600" Width="Auto" MinWidth="800">
+  <Grid Height="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="90*" />
+            <ColumnDefinition Width="90*" />
+            <ColumnDefinition Width="80*" />
+            <ColumnDefinition Width="150*" />
+            <ColumnDefinition Width="90*" />
+            <ColumnDefinition Width="100*" />
+            <ColumnDefinition Width="100*" />
+            <ColumnDefinition Width="90*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
-      <RowDefinition Height="*"/>
-      <RowDefinition Height="Auto"/>
-    </Grid.RowDefinitions>
-    <ListView Name="ListViewEmployeeDetails" Grid.Row="1"
-           Margin="4,109,12,23"  ItemsSource="{Binding Products}"  >
+      <RowDefinition Height="4*"/>
+            <RowDefinition Height="557*" />
+        </Grid.RowDefinitions>
+    <ListView Name="ListViewEmployeeDetails" Grid.Row="2"
+           Margin="4,36,12,0"
+              ItemsSource="{Binding Students}" 
+              SelectedItem="{Binding SelectedItem, Mode=TwoWay}" 
+              FontSize="14" 
+              Grid.ColumnSpan="10">
       <ListView.View>
         <GridView x:Name="grdTest">
-          <GridViewColumn Header="ID"
-                DisplayMemberBinding="{Binding ID}"  Width="100"/>
-          <GridViewColumn Header="Name"
-                DisplayMemberBinding="{Binding Name}"  Width="100" />
-          <GridViewColumn Header="Price"
-                DisplayMemberBinding="{Binding Price}" Width="100" />
+          <GridViewColumn Header="开始时间"
+                DisplayMemberBinding="{Binding StartTime}" Width="Auto" />
+          <GridViewColumn Header="姓名"
+                DisplayMemberBinding="{Binding Name}" Width="Auto" />
+          <GridViewColumn Header="身份证号"
+                DisplayMemberBinding="{Binding Identity}" Width="Auto" />
+          <GridViewColumn Header="联系方式"
+                DisplayMemberBinding="{Binding Contact}" Width="Auto" />
+          <GridViewColumn Header="制卡"
+                DisplayMemberBinding="{Binding MakeCard}" Width="Auto" />
+          <GridViewColumn Header="回卡"
+                DisplayMemberBinding="{Binding ReturnCard}" Width="Auto" />
+          <GridViewColumn Header="理论（初考）"
+                DisplayMemberBinding="{Binding TheoryTestFirst}" Width="Auto" />
+          <GridViewColumn Header="理论（补考）"
+                DisplayMemberBinding="{Binding TheoryTestSecond}" Width="Auto" />
+          <GridViewColumn Header="桩考（初考）"
+                DisplayMemberBinding="{Binding StakeTestFirst}" Width="Auto" />
+          <GridViewColumn Header="桩考（补考）"
+                DisplayMemberBinding="{Binding StakeTestSecond}" Width="Auto" />
+          <GridViewColumn Header="九项（初考）"
+                DisplayMemberBinding="{Binding NineTestFirst}" Width="Auto" />
+          <GridViewColumn Header="九项（补考）"
+                DisplayMemberBinding="{Binding NineTestSecond}" Width="Auto" />
+          <GridViewColumn Header="路面（初考）"
+                DisplayMemberBinding="{Binding RoadTestFirst}" Width="Auto" />
+          <GridViewColumn Header="路面（补考）"
+                DisplayMemberBinding="{Binding RoadTestSecond}" Width="Auto" />
+          <GridViewColumn Header="毕业时间"
+                DisplayMemberBinding="{Binding EndTime}" Width="Auto" />
+          <GridViewColumn Header="备注"
+                DisplayMemberBinding="{Binding Note}" Width="Auto" />
         </GridView>
       </ListView.View>
     </ListView>
-    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left"
-       Margin="80,7,0,0" Name="txtID" VerticalAlignment="Top" Width="178"
-       Text="{Binding ElementName=ListViewEmployeeDetails,Path=SelectedItem.ID}" />
-    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left"
-       Margin="80,35,0,0" Name="txtName" VerticalAlignment="Top" Width="178"
-       Text="{Binding ElementName=ListViewEmployeeDetails,Path=SelectedItem.Name}" />
-    <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="80,61,0,0"
-       Name="txtPrice" VerticalAlignment="Top" Width="178"
-       Text="{Binding ElementName=ListViewEmployeeDetails,Path=SelectedItem.Price}" />
-    <Label Content="ID" Grid.Row="1" HorizontalAlignment="Left"
-           Margin="12,12,0,274" Name="label1" />
-    <Label Content="Price" Grid.Row="1" Height="28"
-       HorizontalAlignment="Left" Margin="12,59,0,0"
-       Name="label2" VerticalAlignment="Top" />
-    <Label Content="Name" Grid.Row="1" Height="28"
-       HorizontalAlignment="Left" Margin="12,35,0,0"
-       Name="label3" VerticalAlignment="Top" />
-    <Button Content="Update" Grid.Row="1" Height="23"
-       HorizontalAlignment="Left" Margin="310,40,0,0" Name="btnUpdate"
-       VerticalAlignment="Top" Width="141"
-       Command="{Binding Path=UpdateCommand}"
+        <Label Content="查询条件:" Grid.Row="2" Height="Auto" HorizontalAlignment="Left" Margin="4,0,0,0" Name="label1" VerticalAlignment="Top" FontSize="14" Width="Auto" />
+    <ComboBox Grid.Row="2" Height="Auto" Width="53" 
+              HorizontalAlignment="Stretch" Margin="9,0,17,0" 
+              Name="searchConditions" 
+              VerticalAlignment="Top" 
+              FontSize="14"
+              ItemsSource="{Binding SearchConditions}"
+              DisplayMemberPath="Name"
+              SelectedValuePath="Name" 
+              IsReadOnly="True" Grid.Column="1" />
+    
+        <Label Content="关键字：" Grid.Row="2" Height="Auto" HorizontalAlignment="Left" Name="label2" VerticalAlignment="Top" FontSize="14" Grid.Column="2" Grid.ColumnSpan="2" />
+        <TextBox Grid.Row="2" Height="Auto" HorizontalAlignment="Stretch" Name="textBox1" VerticalAlignment="Top" Width="120" FontSize="14" Grid.Column="3" />
+        <Button Content="查询" Grid.Row="2" Height="Auto" HorizontalAlignment="Stretch" Name="button1" VerticalAlignment="Top" Width="75" FontSize="14" Grid.Column="4" 
                 />
-  </Grid>
+        <Button Content="新增" Grid.Row="2" Height="Auto" HorizontalAlignment="Stretch" Margin="10,0,12,0" Name="button2" VerticalAlignment="Top" Width="75" FontSize="14" Grid.Column="5" />
+        <Button Content="编辑选中" Grid.Row="2" Height="Auto" HorizontalAlignment="Stretch" Margin="9,0,15,0" Name="button3" VerticalAlignment="Top" Width="85" FontSize="14" Grid.Column="6" 
+                Command="{Binding EditCommand}"/>
+        <Button Content="删除" Grid.Row="2" Height="Auto" HorizontalAlignment="Stretch" Margin="10,0,13,0" Name="button4" VerticalAlignment="Top" Width="75" FontSize="14" Grid.Column="7" />
+        <Button Content="保存" Grid.Row="2" Height="Auto" HorizontalAlignment="Right" Margin="0,0,12,0" Name="button6" VerticalAlignment="Top" Width="75" FontSize="14" Grid.Column="9" />
+    </Grid>
 </Window>

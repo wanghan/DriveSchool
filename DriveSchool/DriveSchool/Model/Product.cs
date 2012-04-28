@@ -12,11 +12,6 @@ namespace DriveSchool
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Product()
-        {
-            
-        }
-
         private void OnPropertyChanged(string propertyName)
         {
             if (!string.IsNullOrEmpty(propertyName) && this.PropertyChanged != null)

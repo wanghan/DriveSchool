@@ -16,7 +16,7 @@ namespace DriveSchool
         {
             base.OnStartup(e);
             DriveSchool.MainWindow window = new MainWindow();
-            ProductViewModel VM = new ProductViewModel();
+            MainWindowViewModel VM = new MainWindowViewModel();
             window.DataContext = VM;
             window.Show();
         }
