@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace DriveSchool
 {
@@ -11,6 +12,20 @@ namespace DriveSchool
         {
             InitializeComponent();
             this.MinWidth = this.Width;
+        }
+
+
+        public void ResizeGridViewColumns()
+        {
+            foreach (GridViewColumn column in this.grdTest.Columns)
+            {
+                if (double.IsNaN(column.Width))
+                {
+                    column.Width = column.ActualWidth;
+                }
+
+                column.Width = double.NaN;
+            }
         }
     }
 }

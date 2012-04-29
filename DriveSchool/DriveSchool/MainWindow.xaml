@@ -29,7 +29,7 @@
       <ListView.View>
         <GridView x:Name="grdTest">
           <GridViewColumn Header="开始时间"
-                DisplayMemberBinding="{Binding StartTime}" Width="Auto" />
+                DisplayMemberBinding="{Binding StartTime, StringFormat='yyyy-MM-dd'}" Width="Auto" />
           <GridViewColumn Header="姓名"
                 DisplayMemberBinding="{Binding Name}" Width="Auto" />
           <GridViewColumn Header="身份证号"
@@ -57,7 +57,7 @@
           <GridViewColumn Header="路面（补考）"
                 DisplayMemberBinding="{Binding RoadTestSecond}" Width="Auto" />
           <GridViewColumn Header="毕业时间"
-                DisplayMemberBinding="{Binding EndTime}" Width="Auto" />
+                DisplayMemberBinding="{Binding EndTime, StringFormat='yyyy-MM-dd'}" Width="Auto" />
           <GridViewColumn Header="备注"
                 DisplayMemberBinding="{Binding Note}" Width="Auto" />
         </GridView>
@@ -79,7 +79,7 @@
         <Button Content="查询" Grid.Row="2" Height="Auto" HorizontalAlignment="Stretch" Name="button1" VerticalAlignment="Top" Width="75" FontSize="14" Grid.Column="4" Margin="15,2,16,0" />
         <Button Content="新增" Grid.Row="2" Height="Auto" Margin="18,2,23,0" Name="button2" VerticalAlignment="Top" FontSize="14" Grid.Column="6" />
         <Button Content="编辑" Grid.Row="2" Height="Auto" HorizontalAlignment="Stretch" Margin="9,3,15,0" Name="button3" VerticalAlignment="Top" Width="Auto" FontSize="14" Grid.Column="7" 
-                Command="{Binding EditCommand}"/>
+                Command="{Binding EditCommand}" />
         <Button Content="删除" Grid.Row="2" Height="Auto" HorizontalAlignment="Stretch" Margin="13,3,12,0" Name="button4" VerticalAlignment="Top" Width="75" FontSize="14" Grid.Column="8" />
         <Button Content="保存" Grid.Row="2" Height="Auto" HorizontalAlignment="Right" Margin="0,3,12,0" Name="button6" VerticalAlignment="Top" Width="75" FontSize="14" Grid.Column="9" />
         <Button Content="显示全部" Grid.Column="5" Grid.Row="2" Height="Auto" HorizontalAlignment="Stretch" Margin="13,2,13,0" Name="button5" VerticalAlignment="Top" Width="75" FontSize="14" />

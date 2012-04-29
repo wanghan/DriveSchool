@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel;
 
 namespace DriveSchool
 {
-    class Student : ModelBase
+    class Student : ModelBase, INotifyPropertyChanged
     {
         public enum StudyItem
         {
@@ -24,8 +23,8 @@ namespace DriveSchool
         private string _name;
         private string _identity;
         private string _contact;
-        private string _startTime;
-        private string _endTime;
+        private DateTime _startTime;
+        private DateTime _endTime;
         private string _note;
         private Dictionary<StudyItem, string> _studyProcess;
 
@@ -54,13 +53,13 @@ namespace DriveSchool
             set { this._contact = value; this.RaisePropertyChanged("Contact"); }
         }
 
-        public string StartTime
+        public DateTime StartTime
         {
             get { return _startTime; }
             set { this._startTime = value; this.RaisePropertyChanged("StartTime"); }
         }
 
-        public string EndTime
+        public DateTime EndTime
         {
             get { return _endTime; }
             set { this._endTime = value; this.RaisePropertyChanged("EndTime"); }
@@ -150,6 +149,21 @@ namespace DriveSchool
                 return this._studyProcess[item];
             }
             return "";
+        }
+
+        public void CloneFrom(Student item)
+        {
+            this.Name = item.Name;
+            this.Identity = item.Identity;
+            this.StartTime = item.StartTime;
+            this.Contact = item.Contact;
+            this.EndTime = item.EndTime;
+            this.Note = item.Note;
+            this._studyProcess.Clear();
+            foreach (StudyItem key in item._studyProcess.Keys)
+            {
+                this._studyProcess[key] = item._studyProcess[key];
+            }
         }
     }
 }

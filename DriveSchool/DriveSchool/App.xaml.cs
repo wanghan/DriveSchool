@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
+﻿using System.Globalization;
+using System.Threading;
 using System.Windows;
 
 namespace DriveSchool
@@ -15,8 +12,13 @@ namespace DriveSchool
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            CultureInfo ci = CultureInfo.CreateSpecificCulture("zh-cn");
+            ci.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
+            Thread.CurrentThread.CurrentCulture = ci;
+
             DriveSchool.MainWindow window = new MainWindow();
-            MainWindowViewModel VM = new MainWindowViewModel();
+            MainWindowViewModel VM = new MainWindowViewModel(window);
             window.DataContext = VM;
             window.Show();
         }

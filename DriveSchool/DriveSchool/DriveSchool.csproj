@@ -83,6 +83,7 @@
     <Compile Include="Model\ModelBase.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Model\Student.cs" />
+    <Compile Include="ViewModel\EditStudentWindowViewModel.cs" />
     <Compile Include="ViewModel\ProductViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\SearchConditionEntry.cs" />
