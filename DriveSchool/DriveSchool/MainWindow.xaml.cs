@@ -10,6 +10,7 @@ namespace DriveSchool
         public MainWindow()
         {
             InitializeComponent();
+            this.MinWidth = this.Width;
         }
     }
 }
