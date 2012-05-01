@@ -6,6 +6,40 @@ namespace DriveSchool
 {
     class EditStudentWindowViewModel : ModelBase
     {
+        private Student _currentStudent;
+        private StudyProcessEntryCollection _studyProcesses;
+        private StudyProcessEntry _selectedStudyProcessEntry;
+
+        public EditStudentWindowViewModel(Student student, Window window)
+        {
+            if (student == null)
+            {
+                _currentStudent = new Student();
+                _currentStudent.StartTime = DateTime.Now;
+                this.IsForNew = true;
+
+                _studyProcesses = new StudyProcessEntryCollection();
+            }
+            else
+            {
+                _currentStudent = student;
+                this.IsForNew = false;
+
+                _studyProcesses = new StudyProcessEntryCollection();
+
+                foreach (StudyItem key in Enum.GetValues(typeof(StudyItem)))
+                {
+                    string value=_currentStudent.StudyItemGetter(key);
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        _studyProcesses.Add(new StudyProcessEntry(key, value));
+                    }
+                }
+            }
+
+            this.CurrentWindow = window;
+        }
+
         public bool IsSaveClicked
         {
             get;
@@ -24,31 +58,29 @@ namespace DriveSchool
             private set;
         }
 
-        public EditStudentWindowViewModel(Student student, Window window)
-        {
-            if (student == null)
-            {
-                _currentStudent = new Student();
-                _currentStudent.StartTime = DateTime.Now;
-                this.IsForNew = true;
-            }
-            else
-            {
-                _currentStudent = student;
-                this.IsForNew = false;
-            }
-
-            this.CurrentWindow = window;
-        }
-
-        private Student _currentStudent;
         public Student CurrentStudent
         {
             get { return _currentStudent; }
             set { this._currentStudent = value; }
         }
 
+        public StudyProcessEntryCollection StudyProcesses
+        {
+            get { return this._studyProcesses; }
+            set { this._studyProcesses = value; }
+        }
 
+        public StudyProcessEntry SelectedStudyProcessEntry
+        {
+            get { return this._selectedStudyProcessEntry; }
+            set
+            {
+                this._selectedStudyProcessEntry = value;
+                this.RaisePropertyChanged("SelectedStudyProcessEntry");
+            }
+        }
+
+        #region Save & Cancel Command
         public ICommand SaveCommand
         {
             get { return new RelayCommand(SaveExecute, CanExecute); }
@@ -68,6 +100,11 @@ namespace DriveSchool
         {
             if (Validate())
             {
+                this._currentStudent.ClearStudyProcess();
+                foreach (StudyProcessEntry entry in this._studyProcesses)
+                {
+                    this._currentStudent.StudyItemSetter(entry.Item, entry.Value);
+                }
                 this.IsSaveClicked = true;
                 this.CurrentWindow.Close();
             }
@@ -101,6 +138,83 @@ namespace DriveSchool
 
             return true;
         }
+
+        #endregion
+
+        #region Edit Study Item Command
+
+        public ICommand EditStudyItemCommand
+        {
+            get { return new RelayCommand(EditStudyItemExecute, CanEditStudyItemExecute); }
+        }
+
+        Boolean CanEditStudyItemExecute()
+        {
+            if (this.SelectedStudyProcessEntry != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        void EditStudyItemExecute()
+        {
+            
+        }
+
+        #endregion
+
+        #region Add Study Item Command
+
+        public ICommand AddStudyItemCommand
+        {
+            get { return new RelayCommand(AddStudyItemExecute, CanAddStudyItemExecute); }
+        }
+
+        Boolean CanAddStudyItemExecute()
+        {
+            return true;
+        }
+
+        void AddStudyItemExecute()
+        {
+        }
+
+        #endregion
+
+        #region Remove Study Item Command
+
+        public ICommand RemoveStudyItemCommand
+        {
+            get { return new RelayCommand(RemoveStudyItemExecute, CanRemoveStudyItemExecute); }
+        }
+
+        Boolean CanRemoveStudyItemExecute()
+        {
+            if (this.SelectedStudyProcessEntry != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        void RemoveStudyItemExecute()
+        {
+            string message = String.Format("确认删除当前项: {0}", this.SelectedStudyProcessEntry.Name);
+            MessageBoxResult confirm = MessageBox.Show(message, "确认", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (confirm == MessageBoxResult.Yes)
+            {
+                this.StudyProcesses.Remove(this.SelectedStudyProcessEntry);
+            }
+        }
+
+        #endregion
 
         bool IsStringNotEmpty(string s)
         {

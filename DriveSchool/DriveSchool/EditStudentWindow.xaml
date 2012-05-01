@@ -50,7 +50,34 @@
                 学习进度
             </GroupBox.Header>
             <Grid Name="grid2">
-                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40*" />
+                    <RowDefinition Height="41*" />
+                    <RowDefinition Height="41*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="88*" />
+                    <ColumnDefinition Width="358*" />
+                </Grid.ColumnDefinitions>
+                <ListView Grid.Column="1" Name="listView1" Grid.RowSpan="3"
+                          ItemsSource="{Binding StudyProcesses}" 
+                          SelectedItem="{Binding SelectedStudyProcessEntry, Mode=TwoWay}" 
+                          >
+                    <ListView.View>
+                        <GridView x:Name="processGrid">
+                            <GridViewColumn Header="项目"
+                                DisplayMemberBinding="{Binding Name}" Width="Auto" />
+                            <GridViewColumn Header="说明"
+                                DisplayMemberBinding="{Binding Value}" Width="Auto" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Button Content="添加" Height="Auto" HorizontalAlignment="Left" Margin="6,6,0,0" Name="button3" VerticalAlignment="Top" Width="75"
+                        Command="{Binding AddStudyItemCommand}" />
+                <Button Content="修改" Grid.Row="1" Height="Auto" HorizontalAlignment="Left" Margin="6,8,0,0" Name="button4" VerticalAlignment="Top" Width="75" 
+                        Command="{Binding EditStudyItemCommand}" />
+                <Button Content="删除" Grid.Row="2" Height="Auto" HorizontalAlignment="Left" Margin="6,8,0,0" Name="button5" VerticalAlignment="Top" Width="75"
+                        Command="{Binding RemoveStudyItemCommand}" />
             </Grid>
         </GroupBox>
         <GroupBox Margin="10" FontSize="16"
@@ -59,7 +86,8 @@
                 备注
             </GroupBox.Header>
             <Grid Name="grid3">
-                <TextBox Name="textBox4" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" />
+                <TextBox Name="textBox4" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" 
+                         Text="{Binding Note}" />
             </Grid>
         </GroupBox>
         <Button Content="保存" Grid.Column="1" Grid.Row="3" Height="Auto" HorizontalAlignment="Stretch" Margin="39,30,125,0" Name="button1" VerticalAlignment="Top" Width="75" FontSize="16"

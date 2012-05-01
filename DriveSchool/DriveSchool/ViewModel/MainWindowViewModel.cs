@@ -126,7 +126,7 @@ namespace DriveSchool
             EditStudentWindowViewModel vm = new EditStudentWindowViewModel(editItem, window);
             window.DataContext = vm;
             window.ShowDialog();
-            window.Closing += OnEditComplete;
+            OnEditComplete(vm);
         }
 
         #endregion
@@ -149,7 +149,7 @@ namespace DriveSchool
             EditStudentWindowViewModel vm = new EditStudentWindowViewModel(null, window);
             window.DataContext = vm;
             window.ShowDialog();
-            window.Closing += OnEditComplete;
+            OnEditComplete(vm);
         }
 
         #endregion
@@ -258,10 +258,8 @@ namespace DriveSchool
 
         #endregion
 
-        void OnEditComplete(object sender, CancelEventArgs e)
+        void OnEditComplete(EditStudentWindowViewModel vm)
         {
-            EditStudentWindow window = (EditStudentWindow)sender;
-            EditStudentWindowViewModel vm = (EditStudentWindowViewModel)window.DataContext;
             if (vm.IsSaveClicked)
             {
                 if (!vm.IsForNew)

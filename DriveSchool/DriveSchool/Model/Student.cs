@@ -4,22 +4,22 @@ using System.ComponentModel;
 
 namespace DriveSchool
 {
+    public enum StudyItem
+    {
+        MakeCard = 1,
+        ReturnCard = 2,
+        TheoryTestFirst = 3,
+        TheoryTestSecond = 4,
+        StakeTestFirst = 5,
+        StakeTestSecond = 6,
+        NineTestFirst = 7,
+        NineTestSecond = 8,
+        RoadTestFirst = 9,
+        RoadTestSecond = 10
+    }
+
     class Student : ModelBase, INotifyPropertyChanged
     {
-        public enum StudyItem
-        {
-            MakeCard = 1,
-            ReturnCard = 2,
-            TheoryTestFirst = 3,
-            TheoryTestSecond = 4,
-            StakeTestFirst = 5,
-            StakeTestSecond = 6,
-            NineTestFirst = 7,
-            NineTestSecond = 8,
-            RoadTestFirst = 9,
-            RoadTestSecond = 10
-        }
-
         private string _name;
         private string _identity;
         private string _contact;
@@ -134,15 +134,13 @@ namespace DriveSchool
             set { StudyItemSetter(StudyItem.RoadTestSecond, value); }
         }
 
-        #endregion
-
-        private void StudyItemSetter(StudyItem item, string value)
+        public void StudyItemSetter(StudyItem item, string value)
         {
             this._studyProcess[item] = value;
             this.RaisePropertyChanged(item.ToString());
         }
 
-        private string StudyItemGetter(StudyItem item)
+        public string StudyItemGetter(StudyItem item)
         {
             if (this._studyProcess.ContainsKey(item))
             {
@@ -150,6 +148,8 @@ namespace DriveSchool
             }
             return "";
         }
+
+        #endregion
 
         public void CloneFrom(Student item)
         {
@@ -159,10 +159,19 @@ namespace DriveSchool
             this.Contact = item.Contact;
             this.EndTime = item.EndTime;
             this.Note = item.Note;
+
             this._studyProcess.Clear();
             foreach (StudyItem key in item._studyProcess.Keys)
             {
                 this._studyProcess[key] = item._studyProcess[key];
+            }
+        }
+
+        public void ClearStudyProcess()
+        {
+            if (this._studyProcess != null)
+            {
+                this._studyProcess.Clear();
             }
         }
     }
