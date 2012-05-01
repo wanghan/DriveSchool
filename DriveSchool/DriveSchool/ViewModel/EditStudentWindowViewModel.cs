@@ -12,7 +12,7 @@ namespace DriveSchool
             private set;
         }
 
-        public bool IsForNow
+        public bool IsForNew
         {
             get;
             private set;
@@ -29,12 +29,13 @@ namespace DriveSchool
             if (student == null)
             {
                 _currentStudent = new Student();
-                this.IsForNow = true;
+                _currentStudent.StartTime = DateTime.Now;
+                this.IsForNew = true;
             }
             else
             {
                 _currentStudent = student;
-                this.IsForNow = false;
+                this.IsForNew = false;
             }
 
             this.CurrentWindow = window;
