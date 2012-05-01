@@ -14,21 +14,14 @@ namespace DriveSchool
         private StudentCollection _allStudents;
         private CollectionView _searchConditions;
         private Student _selectedItem;
-        public Window CurrentWindow
-        {
-            get;
-            private set;
-        }
-        public ICommand ExitCommand
-        {
-            get;
-            private set;
-        }
+        private SearchConditionEntry _selelctedSearchConditionEntry;
+        private string _searchKeyword;
 
         public MainWindowViewModel(Window window)
         {
             this.CurrentWindow = window;
             this._allStudents = new StudentCollection();
+            this._filteredStudents = new StudentCollection();
 
             Student stu1 = new Student { Name = "stu1", Identity = "2202014986146513541", Contact = "1212", StartTime = DateTime.Parse("2012-1-1"), EndTime = DateTime.Parse("2012-2-1") };
             stu1.MakeCard = "开始";
@@ -37,12 +30,25 @@ namespace DriveSchool
             this._allStudents.Add(stu1);
             this._allStudents.Add(stu2);
 
-            this._students = this._allStudents;
+            this.Students = this._allStudents;
 
             IList<SearchConditionEntry> searchConditionList = new List<SearchConditionEntry>();
-            searchConditionList.Add(new SearchConditionEntry("姓名"));
-            searchConditionList.Add(new SearchConditionEntry("身份证"));
+            searchConditionList.Add(new SearchConditionEntry("姓名", SearchCategory.SearchByName));
+            searchConditionList.Add(new SearchConditionEntry("身份证", SearchCategory.SearchByIdentity));
             this._searchConditions = new CollectionView(searchConditionList);
+            this._searchKeyword = "";
+        }
+
+        public Window CurrentWindow
+        {
+            get;
+            private set;
+        }
+
+        public ICommand ExitCommand
+        {
+            get;
+            private set;
         }
 
         public StudentCollection Students
@@ -73,6 +79,26 @@ namespace DriveSchool
             }
         }
 
+        public SearchConditionEntry SelectedSearchCondition
+        {
+            get { return this._selelctedSearchConditionEntry; }
+            set
+            {
+                this._selelctedSearchConditionEntry = value;
+                this.RaisePropertyChanged("SelectedSearchCondition");
+            }
+        }
+
+        public string SearchKeyword
+        {
+            get { return this._searchKeyword; }
+            set
+            {
+                this._searchKeyword = value;
+                this.RaisePropertyChanged("SearchKeyword");
+            }
+        }
+
         #region Edit Command
 
         public ICommand EditCommand
@@ -99,7 +125,7 @@ namespace DriveSchool
             editItem.CloneFrom(this.SelectedItem);
             EditStudentWindowViewModel vm = new EditStudentWindowViewModel(editItem, window);
             window.DataContext = vm;
-            window.Show();
+            window.ShowDialog();
             window.Closing += OnEditComplete;
         }
 
@@ -122,7 +148,7 @@ namespace DriveSchool
             EditStudentWindow window = new EditStudentWindow();
             EditStudentWindowViewModel vm = new EditStudentWindowViewModel(null, window);
             window.DataContext = vm;
-            window.Show();
+            window.ShowDialog();
             window.Closing += OnEditComplete;
         }
 
@@ -142,7 +168,7 @@ namespace DriveSchool
 
         void ShowAllExecute()
         {
-            this._students = this._allStudents;
+            this.Students = this._allStudents;
         }
 
         #endregion
@@ -173,7 +199,60 @@ namespace DriveSchool
             if (confirm == MessageBoxResult.Yes)
             {
                 this._allStudents.Remove(this.SelectedItem);
-                this._students = this._allStudents;
+                this.Students = this._allStudents;
+            }
+        }
+
+        #endregion
+
+        #region Search Command
+
+        public ICommand SearchCommand
+        {
+            get { return new RelayCommand(SearchExecute, CanSearchExecute); }
+        }
+
+        Boolean CanSearchExecute()
+        {
+            if (this.SelectedSearchCondition != null && !string.IsNullOrWhiteSpace(this.SearchKeyword))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        void SearchExecute()
+        {
+            string keyword=this.SearchKeyword.Trim();
+
+            if (this.SelectedSearchCondition.Category==SearchCategory.SearchByName)
+            {
+                this._filteredStudents.Clear();
+                foreach (Student stu in this._allStudents)
+                {
+                    if (stu.Name.Contains(keyword))
+                    {
+                        this._filteredStudents.Add(stu);
+                    }
+                }
+
+                this.Students = this._filteredStudents;
+            }
+            else if (this.SelectedSearchCondition.Category == SearchCategory.SearchByIdentity)
+            {
+                this._filteredStudents.Clear();
+                foreach (Student stu in this._allStudents)
+                {
+                    if (stu.Identity.Contains(keyword))
+                    {
+                        this._filteredStudents.Add(stu);
+                    }
+                }
+
+                this.Students = this._filteredStudents;
             }
         }
 
@@ -193,7 +272,7 @@ namespace DriveSchool
                 else
                 {
                     this._allStudents.Add(vm.CurrentStudent);
-                    this._students = this._allStudents;
+                    this.Students = this._allStudents;
                     ((MainWindow)this.CurrentWindow).ResizeGridViewColumns();
                 }
 

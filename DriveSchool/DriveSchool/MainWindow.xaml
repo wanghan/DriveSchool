@@ -70,13 +70,19 @@
               VerticalAlignment="Top" 
               FontSize="14"
               ItemsSource="{Binding SearchConditions}"
+              SelectedItem="{Binding SelectedSearchCondition}"
               DisplayMemberPath="Name"
-              SelectedValuePath="Name" 
               IsReadOnly="True" Grid.Column="1" />
     
         <Label Content="关键字：" Grid.Row="2" Height="Auto" HorizontalAlignment="Left" Name="label2" VerticalAlignment="Top" FontSize="14" Grid.Column="2" Margin="11,0,0,0" />
-        <TextBox Grid.Row="2" Height="Auto" HorizontalAlignment="Stretch" Name="textBox1" VerticalAlignment="Top" FontSize="14" Grid.Column="3" Margin="0,3,0,0" />
-        <Button Content="查询" Grid.Row="2" Height="Auto" HorizontalAlignment="Stretch" Name="button1" VerticalAlignment="Top" Width="75" FontSize="14" Grid.Column="4" Margin="15,2,16,0" />
+        <TextBox Grid.Row="2" Height="Auto" HorizontalAlignment="Stretch" Name="textBox1" VerticalAlignment="Top" FontSize="14" Grid.Column="3" Margin="0,3,0,0">
+          <TextBox.Text>
+            <Binding Path="SearchKeyword" UpdateSourceTrigger="PropertyChanged">
+            </Binding>
+          </TextBox.Text>
+        </TextBox>
+        <Button Content="查询" Grid.Row="2" Height="Auto" HorizontalAlignment="Stretch" Name="button1" VerticalAlignment="Top" Width="75" FontSize="14" Grid.Column="4" Margin="15,2,16,0"
+                Command="{Binding SearchCommand}" />
         <Button Content="新增" Grid.Row="2" Height="Auto" Margin="18,2,23,0" Name="button2" VerticalAlignment="Top" FontSize="14" Grid.Column="6"
                 Command="{Binding AddCommand}" />
         <Button Content="编辑" Grid.Row="2" Height="Auto" HorizontalAlignment="Stretch" Margin="9,3,15,0" Name="button3" VerticalAlignment="Top" Width="Auto" FontSize="14" Grid.Column="7" 
