@@ -104,6 +104,7 @@ namespace DriveSchool
         }
 
         #endregion
+
         #region Add Command
 
         public ICommand AddCommand
@@ -123,6 +124,57 @@ namespace DriveSchool
             window.DataContext = vm;
             window.Show();
             window.Closing += OnEditComplete;
+        }
+
+        #endregion
+
+        #region Show All Command
+
+        public ICommand ShowAllCommand
+        {
+            get { return new RelayCommand(ShowAllExecute, CanShowAllExecute); }
+        }
+
+        Boolean CanShowAllExecute()
+        {
+            return true;
+        }
+
+        void ShowAllExecute()
+        {
+            this._students = this._allStudents;
+        }
+
+        #endregion
+
+        #region Remove Command
+
+        public ICommand RemoveCommand
+        {
+            get { return new RelayCommand(RemoveExecute, CanRemoveExecute); }
+        }
+
+        Boolean CanRemoveExecute()
+        {
+            if (this.SelectedItem != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        void RemoveExecute()
+        {
+            string message = String.Format("确认删除当前学员：{0},{1}", this.SelectedItem.Identity, this.SelectedItem.Name);
+            MessageBoxResult confirm = MessageBox.Show(message, "确认", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (confirm == MessageBoxResult.Yes)
+            {
+                this._allStudents.Remove(this.SelectedItem);
+                this._students = this._allStudents;
+            }
         }
 
         #endregion

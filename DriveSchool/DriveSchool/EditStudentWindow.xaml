@@ -59,7 +59,7 @@
                 备注
             </GroupBox.Header>
             <Grid Name="grid3">
-                <TextBox Name="textBox4" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Auto" />
+                <TextBox Name="textBox4" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" />
             </Grid>
         </GroupBox>
         <Button Content="保存" Grid.Column="1" Grid.Row="3" Height="Auto" HorizontalAlignment="Stretch" Margin="39,30,125,0" Name="button1" VerticalAlignment="Top" Width="75" FontSize="16"

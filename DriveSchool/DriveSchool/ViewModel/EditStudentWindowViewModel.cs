@@ -66,14 +66,45 @@ namespace DriveSchool
 
         void SaveExecute()
         {
-            this.IsSaveClicked = true;
-            this.CurrentWindow.Close();
+            if (Validate())
+            {
+                this.IsSaveClicked = true;
+                this.CurrentWindow.Close();
+            }
         }
 
         void CancelExecute()
         {
             this.IsSaveClicked = false;
             this.CurrentWindow.Close();
+        }
+
+        bool Validate()
+        {
+            if (this.CurrentStudent == null)
+            {
+                MessageBox.Show("当前编辑学员为空！", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (IsStringNotEmpty(this.CurrentStudent.Name))
+            {
+                MessageBox.Show("学员姓名不能为空！", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (IsStringNotEmpty(this.CurrentStudent.Identity))
+            {
+                MessageBox.Show("学员身份证号码不能为空！", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        bool IsStringNotEmpty(string s)
+        {
+            return s == null || string.IsNullOrWhiteSpace(s);
         }
     }
 }
