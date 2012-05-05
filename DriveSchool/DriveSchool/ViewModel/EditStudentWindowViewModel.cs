@@ -70,7 +70,6 @@ namespace DriveSchool
         public StudyProcessEntryCollection StudyProcesses
         {
             get { return this._studyProcesses; }
-            set { this._studyProcesses = value; }
         }
 
         #region Save & Cancel Command
