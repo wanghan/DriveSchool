@@ -23,8 +23,8 @@ namespace DriveSchool
         private string _name;
         private string _identity;
         private string _contact;
-        private DateTime _startTime;
-        private DateTime _endTime;
+        private DateTime? _startTime;
+        private DateTime? _endTime;
         private string _note;
         private Dictionary<StudyItem, string> _studyProcess;
 
@@ -53,13 +53,13 @@ namespace DriveSchool
             set { this._contact = value; this.RaisePropertyChanged("Contact"); }
         }
 
-        public DateTime StartTime
+        public DateTime? StartTime
         {
             get { return _startTime; }
             set { this._startTime = value; this.RaisePropertyChanged("StartTime"); }
         }
 
-        public DateTime EndTime
+        public DateTime? EndTime
         {
             get { return _endTime; }
             set { this._endTime = value; this.RaisePropertyChanged("EndTime"); }
@@ -160,10 +160,15 @@ namespace DriveSchool
             this.EndTime = item.EndTime;
             this.Note = item.Note;
 
-            this._studyProcess.Clear();
+            //clear study process items
+            foreach (StudyItem key in Enum.GetValues(typeof(StudyItem)))
+            {
+                this.StudyItemSetter(key, "");
+            }
+
             foreach (StudyItem key in item._studyProcess.Keys)
             {
-                this._studyProcess[key] = item._studyProcess[key];
+                this.StudyItemSetter(key, item._studyProcess[key]);
             }
         }
 

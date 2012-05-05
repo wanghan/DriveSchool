@@ -25,7 +25,7 @@ namespace DriveSchool
 
             Student stu1 = new Student { Name = "stu1", Identity = "2202014986146513541", Contact = "1212", StartTime = DateTime.Parse("2012-1-1"), EndTime = DateTime.Parse("2012-2-1") };
             stu1.MakeCard = "开始";
-            Student stu2 = new Student { Name = "stu2", Identity = "2202014981212113541", Contact = "1212", StartTime = DateTime.Parse("2012-1-1"), EndTime = DateTime.Parse("2012-2-1") };
+            Student stu2 = new Student { Name = "stu2", Identity = "2202014981212113541", Contact = "1212", StartTime = DateTime.Parse("2012-1-1") };
 
             this._allStudents.Add(stu1);
             this._allStudents.Add(stu2);

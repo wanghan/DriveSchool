@@ -1,8 +1,15 @@
 ﻿<Window x:Class="DriveSchool.EditStudentWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:DriveSchool"
         Title="EditStudentWindow" Height="600" Width="500" MinWidth="500" MinHeight="600">
-    <Grid>
+  <Window.Resources>
+    <DataTemplate x:Key="textBoxTemplate">
+      <TextBox Text="{Binding Path=Value}" Width="300"></TextBox>
+    </DataTemplate>
+  </Window.Resources>
+
+  <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="199*" />
             <RowDefinition Height="170*" />
@@ -50,34 +57,18 @@
                 学习进度
             </GroupBox.Header>
             <Grid Name="grid2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40*" />
-                    <RowDefinition Height="41*" />
-                    <RowDefinition Height="41*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="88*" />
-                    <ColumnDefinition Width="358*" />
-                </Grid.ColumnDefinitions>
                 <ListView Grid.Column="1" Name="listView1" Grid.RowSpan="3"
                           ItemsSource="{Binding StudyProcesses}" 
-                          SelectedItem="{Binding SelectedStudyProcessEntry, Mode=TwoWay}" 
                           >
                     <ListView.View>
                         <GridView x:Name="processGrid">
                             <GridViewColumn Header="项目"
                                 DisplayMemberBinding="{Binding Name}" Width="Auto" />
-                            <GridViewColumn Header="说明"
-                                DisplayMemberBinding="{Binding Value}" Width="Auto" />
+                            <GridViewColumn Header="说明" Width="300"
+                                CellTemplate="{StaticResource textBoxTemplate}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <Button Content="添加" Height="Auto" HorizontalAlignment="Left" Margin="6,6,0,0" Name="button3" VerticalAlignment="Top" Width="75"
-                        Command="{Binding AddStudyItemCommand}" />
-                <Button Content="修改" Grid.Row="1" Height="Auto" HorizontalAlignment="Left" Margin="6,8,0,0" Name="button4" VerticalAlignment="Top" Width="75" 
-                        Command="{Binding EditStudyItemCommand}" />
-                <Button Content="删除" Grid.Row="2" Height="Auto" HorizontalAlignment="Left" Margin="6,8,0,0" Name="button5" VerticalAlignment="Top" Width="75"
-                        Command="{Binding RemoveStudyItemCommand}" />
             </Grid>
         </GroupBox>
         <GroupBox Margin="10" FontSize="16"

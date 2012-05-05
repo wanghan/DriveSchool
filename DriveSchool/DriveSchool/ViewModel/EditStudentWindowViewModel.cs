@@ -8,7 +8,6 @@ namespace DriveSchool
     {
         private Student _currentStudent;
         private StudyProcessEntryCollection _studyProcesses;
-        private StudyProcessEntry _selectedStudyProcessEntry;
 
         public EditStudentWindowViewModel(Student student, Window window)
         {
@@ -26,14 +25,18 @@ namespace DriveSchool
                 this.IsForNew = false;
 
                 _studyProcesses = new StudyProcessEntryCollection();
+            }
 
-                foreach (StudyItem key in Enum.GetValues(typeof(StudyItem)))
+            foreach (StudyItem key in Enum.GetValues(typeof(StudyItem)))
+            {
+                string value = _currentStudent.StudyItemGetter(key);
+                if (value != null)
                 {
-                    string value=_currentStudent.StudyItemGetter(key);
-                    if (!string.IsNullOrWhiteSpace(value))
-                    {
-                        _studyProcesses.Add(new StudyProcessEntry(key, value));
-                    }
+                    _studyProcesses.Add(new StudyProcessEntry(key, value.Trim()));
+                }
+                else
+                {
+                    _studyProcesses.Add(new StudyProcessEntry(key, ""));
                 }
             }
 
@@ -68,16 +71,6 @@ namespace DriveSchool
         {
             get { return this._studyProcesses; }
             set { this._studyProcesses = value; }
-        }
-
-        public StudyProcessEntry SelectedStudyProcessEntry
-        {
-            get { return this._selectedStudyProcessEntry; }
-            set
-            {
-                this._selectedStudyProcessEntry = value;
-                this.RaisePropertyChanged("SelectedStudyProcessEntry");
-            }
         }
 
         #region Save & Cancel Command
@@ -137,81 +130,6 @@ namespace DriveSchool
             }
 
             return true;
-        }
-
-        #endregion
-
-        #region Edit Study Item Command
-
-        public ICommand EditStudyItemCommand
-        {
-            get { return new RelayCommand(EditStudyItemExecute, CanEditStudyItemExecute); }
-        }
-
-        Boolean CanEditStudyItemExecute()
-        {
-            if (this.SelectedStudyProcessEntry != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        void EditStudyItemExecute()
-        {
-            
-        }
-
-        #endregion
-
-        #region Add Study Item Command
-
-        public ICommand AddStudyItemCommand
-        {
-            get { return new RelayCommand(AddStudyItemExecute, CanAddStudyItemExecute); }
-        }
-
-        Boolean CanAddStudyItemExecute()
-        {
-            return true;
-        }
-
-        void AddStudyItemExecute()
-        {
-        }
-
-        #endregion
-
-        #region Remove Study Item Command
-
-        public ICommand RemoveStudyItemCommand
-        {
-            get { return new RelayCommand(RemoveStudyItemExecute, CanRemoveStudyItemExecute); }
-        }
-
-        Boolean CanRemoveStudyItemExecute()
-        {
-            if (this.SelectedStudyProcessEntry != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        void RemoveStudyItemExecute()
-        {
-            string message = String.Format("确认删除当前项: {0}", this.SelectedStudyProcessEntry.Name);
-            MessageBoxResult confirm = MessageBox.Show(message, "确认", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (confirm == MessageBoxResult.Yes)
-            {
-                this.StudyProcesses.Remove(this.SelectedStudyProcessEntry);
-            }
         }
 
         #endregion
