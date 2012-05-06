@@ -50,11 +50,6 @@ namespace DriveSchool
             }
         }
 
-        public void InsertAll(StudentCollection students)
-        {
-            this.dataContext.StudentTable.InsertAllOnSubmit(students);
-        }
-
         public void Insert(Student student)
         {
             this.dataContext.StudentTable.InsertOnSubmit(student);

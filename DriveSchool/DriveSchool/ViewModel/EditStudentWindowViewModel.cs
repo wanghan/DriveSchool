@@ -92,7 +92,6 @@ namespace DriveSchool
         {
             if (Validate())
             {
-                this._currentStudent.ClearStudyProcess();
                 foreach (StudyProcessEntry entry in this._studyProcesses)
                 {
                     this._currentStudent.StudyItemSetter(entry.Item, entry.Value);

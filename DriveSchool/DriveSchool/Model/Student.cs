@@ -21,11 +21,8 @@ namespace DriveSchool
 
     partial class Student : ModelBase, INotifyPropertyChanged
     {
-        private Dictionary<StudyItem, string> _studyProcess;
-
         public Student()
         {
-            _studyProcess = new Dictionary<StudyItem, string>();
         }
 
         #region Study Item Getter & Setter
@@ -55,23 +52,11 @@ namespace DriveSchool
             this.EndTime = item.EndTime;
             this.Note = item.Note;
 
-            //clear study process items
             foreach (StudyItem key in Enum.GetValues(typeof(StudyItem)))
             {
                 this.StudyItemSetter(key, "");
-            }
-
-            foreach (StudyItem key in item._studyProcess.Keys)
-            {
-                this.StudyItemSetter(key, item._studyProcess[key]);
-            }
-        }
-
-        public void ClearStudyProcess()
-        {
-            if (this._studyProcess != null)
-            {
-                this._studyProcess.Clear();
+                string newValue = item.StudyItemGetter(key);
+                this.StudyItemSetter(key, newValue);
             }
         }
     }
