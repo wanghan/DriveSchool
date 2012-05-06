@@ -1,2 +1,5 @@
 /bin/
 /obj/
+/dll/
+/data - Copy.sqlite
+/data.sqlite

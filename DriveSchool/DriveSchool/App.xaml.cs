@@ -22,5 +22,11 @@ namespace DriveSchool
             window.DataContext = VM;
             window.Show();
         }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            DBHandler.Instance.Close();
+            base.OnExit(e);
+        }
     }
 }

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="student" Class="Student" BaseType="DbLinq.Data.Linq.DataContext" Provider="Sqlite" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="main.student" Member="Student">
+    <Type Name="Student">
+      <Column Name="Contact" Storage="_contact" Type="System.String" DbType="TEXT" CanBeNull="true" />
+      <Column Name="EndTime" Storage="_endTime" Type="System.DateTime" DbType="DATETIME" CanBeNull="true" />
+      <Column Name="Id" Member="ID" Storage="_id" Type="System.Int32" DbType="INTEGER" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Identity" Storage="_identity" Type="System.String" DbType="TEXT" CanBeNull="true" />
+      <Column Name="MakeCard" Storage="_makeCard" Type="System.String" DbType="TEXT" CanBeNull="true" />
+      <Column Name="Name" Storage="_name" Type="System.String" DbType="TEXT" CanBeNull="true" />
+      <Column Name="NineTestFirst" Storage="_nineTestFirst" Type="System.String" DbType="TEXT" CanBeNull="true" />
+      <Column Name="NineTestSecond" Storage="_nineTestSecond" Type="System.String" DbType="TEXT" CanBeNull="true" />
+      <Column Name="Note" Storage="_note" Type="System.String" DbType="TEXT" CanBeNull="true" />
+      <Column Name="ReturnCard" Storage="_returnCard" Type="System.String" DbType="TEXT" CanBeNull="true" />
+      <Column Name="RoadTestFirst" Storage="_roadTestFirst" Type="System.String" DbType="TEXT" CanBeNull="true" />
+      <Column Name="RoadTestSecond" Storage="_roadTestSecond" Type="System.String" DbType="TEXT" CanBeNull="true" />
+      <Column Name="StakeTestFirst" Storage="_stakeTestFirst" Type="System.String" DbType="TEXT" CanBeNull="true" />
+      <Column Name="StakeTestSecond" Storage="_stakeTestSecond" Type="System.String" DbType="TEXT" CanBeNull="true" />
+      <Column Name="StartTime" Storage="_startTime" Type="System.DateTime" DbType="DATETIME" CanBeNull="true" />
+      <Column Name="TheoryTestFirst" Storage="_theoryTestFirst" Type="System.String" DbType="TEXT" CanBeNull="true" />
+      <Column Name="TheoryTestSecond" Storage="_theoryTestSecond" Type="System.String" DbType="TEXT" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

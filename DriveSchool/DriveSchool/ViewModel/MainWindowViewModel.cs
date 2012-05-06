@@ -20,15 +20,8 @@ namespace DriveSchool
         public MainWindowViewModel(Window window)
         {
             this.CurrentWindow = window;
-            this._allStudents = new StudentCollection();
+            this._allStudents = DBHandler.Instance.QueryAll();
             this._filteredStudents = new StudentCollection();
-
-            Student stu1 = new Student { Name = "stu1", Identity = "2202014986146513541", Contact = "1212", StartTime = DateTime.Parse("2012-1-1"), EndTime = DateTime.Parse("2012-2-1") };
-            stu1.MakeCard = "开始";
-            Student stu2 = new Student { Name = "stu2", Identity = "2202014981212113541", Contact = "1212", StartTime = DateTime.Parse("2012-1-1") };
-
-            this._allStudents.Add(stu1);
-            this._allStudents.Add(stu2);
 
             this.Students = this._allStudents;
 
@@ -173,6 +166,25 @@ namespace DriveSchool
 
         #endregion
 
+        #region Save Command
+
+        public ICommand SaveCommand
+        {
+            get { return new RelayCommand(SaveExecute, CanSaveExecute); }
+        }
+
+        Boolean CanSaveExecute()
+        {
+            return DBHandler.Instance.HasPendingChange();
+        }
+
+        void SaveExecute()
+        {
+            DBHandler.Instance.SubmitChanges();
+        }
+
+        #endregion
+
         #region Remove Command
 
         public ICommand RemoveCommand
@@ -198,8 +210,10 @@ namespace DriveSchool
             MessageBoxResult confirm = MessageBox.Show(message, "确认", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (confirm == MessageBoxResult.Yes)
             {
-                this._allStudents.Remove(this.SelectedItem);
+                Student stu = this.SelectedItem;
+                this._allStudents.Remove(stu);
                 this.Students = this._allStudents;
+                DBHandler.Instance.Delete(stu);
             }
         }
 
@@ -269,11 +283,12 @@ namespace DriveSchool
                 }
                 else
                 {
-                    this._allStudents.Add(vm.CurrentStudent);
+                    Student stu = vm.CurrentStudent;
+                    this._allStudents.Add(stu);
+                    DBHandler.Instance.Insert(stu);
                     this.Students = this._allStudents;
                     ((MainWindow)this.CurrentWindow).ResizeGridViewColumns();
                 }
-
             }
         }
     }
